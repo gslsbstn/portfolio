@@ -1,23 +1,42 @@
-- uses: actions/checkout@v4
+name: Deploy website
 
-- uses: webfactory/ssh-agent@v0.9.0
-  with:
-    ssh-private-key: ${{ secrets.SSH_KEY }}
+on:
+  push:
+    branches:
+      - main
 
-- name: Add known_hosts
-  run: |
-    mkdir -p ~/.ssh
-    ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-- name: Test SSH
-  run: |
-    ssh -o IdentitiesOnly=yes ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo connected"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-- name: Deploy
-  run: |
-    rsync -avz --delete \
-      -e "ssh -o IdentitiesOnly=yes" \
-      --exclude ".git" \
-      --exclude ".github" \
-      ./ \
-      ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/portfolio.geissel.io/html/
+      - name: Prepare SSH
+        shell: bash
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Verify private key format
+        shell: bash
+        run: |
+          ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
+
+      - name: Test SSH
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo connected"
+
+      - name: Deploy
+        shell: bash
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            --exclude ".git" \
+            --exclude ".github" \
+            ./ \
+            ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/var/www/portfolio.geissel.io/html/
