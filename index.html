@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sebastian Geißel — Security Architect | geissel.io</title>
+  <meta name="description" content="Portfolio of Sebastian Geißel — Security Architect focused on information security, security governance, cloud and infrastructure security." />
+  <style>
+    :root {
+      --bg: #071018;
+      --bg-soft: rgba(14, 25, 38, 0.92);
+      --panel: rgba(9, 18, 29, 0.88);
+      --panel-2: rgba(12, 24, 38, 0.92);
+      --border: rgba(123, 224, 194, 0.18);
+      --text: #e8f0f8;
+      --muted: #9db2c7;
+      --accent: #7be0c2;
+      --accent-2: #88b7ff;
+      --danger: #ff7f96;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+      --radius: 20px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(136, 183, 255, 0.13), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(123, 224, 194, 0.12), transparent 25%),
+        linear-gradient(180deg, #061018 0%, #071018 30%, #09131f 100%);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.5), transparent 90%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      background: rgba(6, 12, 20, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 72px 0 36px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .terminal {
+      overflow: hidden;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .dot:nth-child(1) { background: #ff5f57; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #28c840; }
+
+    .terminal-body {
+      padding: 24px;
+      font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.95rem;
+    }
+
+    .muted { color: var(--muted); }
+    .accent { color: var(--accent); }
+    .accent-2 { color: var(--accent-2); }
+
+    .hero h1 {
+      margin: 12px 0 10px;
+      font-size: clamp(2.2rem, 5vw, 4.35rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .hero .sub {
+      color: var(--muted);
+      font-size: 1.06rem;
+      max-width: 64ch;
+      margin-bottom: 20px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 26px;
+    }
+
+    .chip {
+      border: 1px solid rgba(123, 224, 194, 0.22);
+      background: rgba(123, 224, 194, 0.08);
+      color: #d9fff3;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.92rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(123, 224, 194, 0.28);
+      background: rgba(123, 224, 194, 0.08);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(123, 224, 194, 0.18), rgba(136, 183, 255, 0.16));
+      border-color: rgba(123, 224, 194, 0.3);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      padding: 22px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel-2);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .stat .label {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .stat .value {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 8px 0 4px;
+      letter-spacing: -0.03em;
+    }
+
+    section {
+      padding: 26px 0;
+    }
+
+    .section-head {
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      text-transform: lowercase;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      color: var(--muted);
+      max-width: 72ch;
+      margin-top: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 22px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.08rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .skill-group h3 {
+      margin: 0 0 14px;
+      font-size: 1.05rem;
+    }
+
+    .skill {
+      margin-bottom: 14px;
+    }
+
+    .skill-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.95rem;
+      margin-bottom: 7px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      opacity: 0.95;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(var(--accent), rgba(136,183,255,0.18));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-left: 42px;
+      padding: 20px;
+      border-radius: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -33px;
+      top: 24px;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(123,224,194,0.15);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    .timeline-item ul,
+    .project ul,
+    .cert-list,
+    .soft-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .project {
+      padding: 22px;
+      border-radius: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .project h3 {
+      margin: 0 0 6px;
+      font-size: 1.1rem;
+    }
+
+    .project .tagline {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .tags span {
+      font-size: 0.84rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: #d7e3ef;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .contact-card {
+      padding: 24px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(123,224,194,0.08), rgba(136,183,255,0.06));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .contact-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.16);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-3,
+      .skills-grid,
+      .project-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav-inner { align-items: flex-start; }
+      .nav-links { font-size: 0.9rem; }
+      .stats { grid-template-columns: 1fr; }
+      .hero { padding-top: 42px; }
+      .timeline-item { margin-left: 30px; }
+      .timeline::before { left: 10px; }
+      .timeline-item::before { left: -26px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a href="#top" class="brand">geissel.io</a>
+      <div class="nav-links">
+        <a href="#about">about</a>
+        <a href="#value">value</a>
+        <a href="#skills">skills</a>
+        <a href="#timeline">timeline</a>
+        <a href="#projects">projects</a>
+        <a href="#credentials">credentials</a>
+        <a href="#contact">contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="panel terminal">
+          <div class="terminal-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          </div>
+          <div class="terminal-body">
+            <div class="muted">❯ cat /etc/profile</div>
+            <h1>Sebastian<br>Geißel</h1>
+            <div class="accent">// Security Architect · Information Security · Security Governance</div>
+            <p class="sub">
+              I design security concepts, reference architectures and operating models that make security practical,
+              scalable and sustainable across enterprise environments.
+            </p>
+            <div class="chip-row">
+              <span class="chip">18+ years in IT security</span>
+              <span class="chip">Cloud & infrastructure security</span>
+              <span class="chip">ISMS & risk-oriented decisions</span>
+              <span class="chip">Security as Code</span>
+              <span class="chip">Düsseldorf · Germany</span>
+            </div>
+            <div class="hero-actions">
+              <a class="btn primary" href="#contact">Get in touch</a>
+              <a class="btn" href="mailto:sebastian@geissel.io">sebastian@geissel.io</a>
+              <a class="btn" href="https://linkedin.com/in/sege" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel stats">
+          <div class="stat">
+            <div class="label">Experience</div>
+            <div class="value">18+</div>
+            <div class="muted">Years in IT security</div>
+          </div>
+          <div class="stat">
+            <div class="label">Focus</div>
+            <div class="value">ISMS</div>
+            <div class="muted">Risk, controls, governance</div>
+          </div>
+          <div class="stat">
+            <div class="label">Leadership</div>
+            <div class="value">8 FTE</div>
+            <div class="muted">Work-package lead responsibility</div>
+          </div>
+          <div class="stat">
+            <div class="label">Languages</div>
+            <div class="value">DE / EN</div>
+            <div class="muted">C2 German · B2 English</div>
+          </div>
+          <div class="stat">
+            <div class="label">Domain</div>
+            <div class="value">Enterprise</div>
+            <div class="muted">Large-scale, cross-functional environments</div>
+          </div>
+          <div class="stat">
+            <div class="label">Tooling</div>
+            <div class="value">Terraform</div>
+            <div class="muted">Automation, CI/CD, Python</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">about</div>
+          <h2>Security that works in real operations.</h2>
+          <p class="lead">
+            My background combines technical depth in infrastructure, network and cloud security with a strong focus
+            on information security, governance and reliable operating processes. I translate regulatory and
+            organizational requirements into controls, standards and architectures that teams can actually implement.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="value">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">value</div>
+          <h2>What I bring to security teams and enterprise platforms.</h2>
+        </div>
+        <div class="grid-3">
+          <article class="card">
+            <h3>Governance with technical credibility</h3>
+            <p>
+              I work at the intersection of policy, architecture and operations: turning frameworks, risks and control
+              requirements into decisions, designs and implementation guidance.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Standardization that scales</h3>
+            <p>
+              From SOPs and runbooks to reference services and lifecycle processes, I build repeatable security
+              patterns that reduce friction and improve delivery quality.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Enablement across teams</h3>
+            <p>
+              I align security, infrastructure, operations and project stakeholders, support risk-oriented decisions,
+              and help teams embed security sustainably into their day-to-day work.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">skills --verbose</div>
+          <h2>Core capabilities.</h2>
+        </div>
+        <div class="skills-grid">
+          <div class="card skill-group">
+            <h3>Information Security & Governance</h3>
+            <div class="skill"><div class="skill-top"><span>Security concepts, policies & standards</span><span>95</span></div><div class="bar"><div class="fill" style="width:95%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>ISMS context & risk handling</span><span>90</span></div><div class="bar"><div class="fill" style="width:90%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>Stakeholder alignment</span><span>93</span></div><div class="bar"><div class="fill" style="width:93%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>Security governance</span><span>92</span></div><div class="bar"><div class="fill" style="width:92%"></div></div></div>
+          </div>
+          <div class="card skill-group">
+            <h3>Architecture, Cloud & Operations</h3>
+            <div class="skill"><div class="skill-top"><span>Security architecture (on-prem & cloud)</span><span>94</span></div><div class="bar"><div class="fill" style="width:94%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>Process integration & operating models</span><span>91</span></div><div class="bar"><div class="fill" style="width:91%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>Security as Code / Terraform</span><span>87</span></div><div class="bar"><div class="fill" style="width:87%"></div></div></div>
+            <div class="skill"><div class="skill-top"><span>Incident & monitoring collaboration</span><span>85</span></div><div class="bar"><div class="fill" style="width:85%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">timeline --career</div>
+          <h2>Selected career path.</h2>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="meta"><span>05/2022 – today</span><span>ALDI International Services · Mülheim an der Ruhr</span></div>
+            <h3>Senior IT Engineer — Infrastructure Security Automation / Architecture</h3>
+            <ul>
+              <li>Designed target architectures, security requirements and implementation decisions for on-prem and multi-cloud environments.</li>
+              <li>Owned AlgoSec for policy management and firewall orchestration including lifecycle processes and automation.</li>
+              <li>Led cross-functional work packages, including NDR, DDoS protection, CSPM and NSPM rollouts.</li>
+              <li>Supported ISMS-related risk handling, external penetration testing coordination and follow-up measures.</li>
+            </ul>
+          </article>
+
+          <article class="timeline-item">
+            <div class="meta"><span>05/2016 – 04/2022</span><span>Gothaer Systems · Cologne</span></div>
+            <h3>Infrastructure Security Architect</h3>
+            <ul>
+              <li>Built and evolved architecture and security solutions for on-prem, Azure and container-adjacent platform environments.</li>
+              <li>Translated security requirements into reusable platform solutions for development teams.</li>
+              <li>Standardized operating concepts for central security components and aligned controls with governance requirements.</li>
+            </ul>
+          </article>
+
+          <article class="timeline-item">
+            <div class="meta"><span>2015 – 2016</span><span>Seculonia & METRO Systems</span></div>
+            <h3>Consulting & 3rd-Level Security Roles</h3>
+            <ul>
+              <li>Delivered design, build, documentation and operational support for security components.</li>
+              <li>Drove incident, patch, policy, problem and reporting processes in enterprise security environments.</li>
+            </ul>
+          </article>
+
+          <article class="timeline-item">
+            <div class="meta"><span>2008 – 2014</span><span>Computacenter & MODCOMP</span></div>
+            <h3>Managed Security Engineering Foundations</h3>
+            <ul>
+              <li>Worked across managed security services, engineering, incident analysis, reporting and operational standardization.</li>
+              <li>Automated routine tasks, supported colleagues and contributed to sustainable security operations.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="eyebrow">ls ~/projects --selected</div>
+          <h2>Selected work and program highlights.</h2>
+          <p class="lead">Examples of large-scale work packages, architecture initiatives and operational security improvements from enterprise environments.</p>
+        </div>
+        <div class="project-grid">
+          <article class="project">
+            <h3>Network Detection & Response</h3>
+            <div class="tagline">Enterprise work-package leadership across IT, IoT and OT requirements.</div>
+            <ul>
+              <li>Compared four vendors across technical, functional and operational criteria.</li>
+              <li>Prepared architecture concepts, management recommendations and rollout approach for seven countries.</li>
+              <li>Aligned security, infrastructure and operations around operating model and integration points.</li>
+            </ul>
+            <div class="tags"><span>NDR</span><span>Architecture</span><span>Vendor Evaluation</span><span>Leadership</span></div>
+          </article>
+
+          <article class="project">
+            <h3>DDoS Protection in Azure</h3>
+            <div class="tagline">Reference architecture, rollout design and Security-as-Code implementation.</div>
+            <ul>
+              <li>Created a group-wide reference service for DDoS protection.</li>
+              <li>Implemented scalable security controls with Terraform, CI/CD pipelines and Azure policies.</li>
+              <li>Documented operating procedures and supported transition into stable operations.</li>
+            </ul>
+            <div class="tags"><span>Azure</span><span>Terraform</span><span>Security as Code</span><span>Rollout</span></div>
+          </article>
+
+          <article class="project">
+            <h3>CSPM / NSPM Rollout</h3>
+            <div class="tagline">Governance, controls, integration and operating readiness at scale.</div>
+            <ul>
+              <li>Defined target picture, controls and architecture decisions for group-wide implementation.</li>
+              <li>Standardized and automated delivery for governance-friendly scaling.</li>
+              <li>Owned operational handover including SOPs, runbooks, process integration and team enablement.</li>
+            </ul>
+            <div class="tags"><span>CSPM</span><span>NSPM</span><span>Governance</span><span>Operations</span></div>
+          </article>
+
+          <article class="project">
+            <h3>SOC & Monitoring Foundations</h3>
+            <div class="tagline">Process design and solution evaluation for security visibility and incident handling.</div>
+            <ul>
+              <li>Contributed to building SOC structures, processes and incident handling approaches.</li>
+              <li>Evaluated SIEM and analytics solutions and derived operational requirements.</li>
+              <li>Improved the link between monitoring, reporting and security incident workflows.</li>
+            </ul>
+            <div class="tags"><span>SOC</span><span>SIEM</span><span>Incident Handling</span><span>Monitoring</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="credentials">
+      <div class="wrap two-col">
+        <div class="card">
+          <div class="section-head">
+            <div class="eyebrow">credentials</div>
+            <h2>Certifications & tooling.</h2>
+          </div>
+          <ul class="cert-list">
+            <li>EC-Council CEH v9</li>
+            <li>Check Point CCSA / CCSE</li>
+            <li>Juniper JNCIA-FWV / JNCIS-FWV</li>
+            <li>Blue Coat Certified ProxySG Professional</li>
+            <li>MobileIron Certified Administrator</li>
+            <li>Scrum Master (scrum.org)</li>
+            <li>ISO 27001 · BSI IT-Grundschutz · SIEM · ITIL · SOPs / Runbooks</li>
+            <li>Python · Terraform · GitLab CI/CD · Ansible</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <div class="eyebrow">soft skills</div>
+            <h2>How I work.</h2>
+          </div>
+          <ul class="soft-list">
+            <li>Convincing communication with technical and non-technical stakeholders</li>
+            <li>Structured coordination across cross-functional teams</li>
+            <li>Clear presentation of risks, decisions and results for management audiences</li>
+            <li>Calm, solution-oriented behavior in complex or high-pressure situations</li>
+            <li>Transparent collaboration, trust and continuous improvement</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="contact-card">
+          <div class="section-head">
+            <div class="eyebrow">contact.json</div>
+            <h2>Let’s talk about security architecture, governance or enterprise transformation.</h2>
+            <p class="lead">Available for senior security architecture and information security roles, especially where governance, standardization and operational reality need to work together.</p>
+          </div>
+          <div class="contact-list">
+            <div class="contact-item"><span class="muted">Email</span><a href="mailto:sebastian@geissel.io">sebastian@geissel.io</a></div>
+            <div class="contact-item"><span class="muted">LinkedIn</span><a href="https://linkedin.com/in/sege" target="_blank" rel="noreferrer">linkedin.com/in/sege</a></div>
+            <div class="contact-item"><span class="muted">Location</span><span>Düsseldorf, Germany</span></div>
+            <div class="contact-item"><span class="muted">Domain</span><span>geissel.io</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Sebastian Geißel · Built for portfolio.geissel.io</div>
+  </footer>
+</body>
+</html>
