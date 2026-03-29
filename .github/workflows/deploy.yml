@@ -10,20 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repository auschecken
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SSH vorbereiten
+      - name: Prepare SSH key
+        shell: bash
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          printf '%s\n' "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
-      - name: Dateien deployen
+      - name: Test SSH
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes ${{ secrets.USERNAME }}@${{ secrets.HOST }} "echo connected"
+
+      - name: Deploy
+        shell: bash
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key" \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
             --exclude ".git" \
             --exclude ".github" \
             ./ \
