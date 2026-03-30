@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sebastian Geißel — Security Architect | geissel.io</title>
-  <meta name="description" content="Portfolio of Sebastian Geißel — Security Architect focused on information security, security governance, cloud and infrastructure security." />
+  <title>Sebastian Geißel — Security Architect | portfolio.geissel.io</title>
+  <meta name="description" content="Portfolio von Sebastian Geißel — Security Architect mit Fokus auf Informationssicherheit, Security Governance, Cloud- und Infrastruktur-Sicherheit." />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self' mailto:; object-src 'none'; frame-ancestors 'none'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' data: https:; connect-src 'self'; script-src 'none'; upgrade-insecure-requests" />
   <style>
     :root {
       --bg: #071018;
@@ -448,6 +450,54 @@
       border: 1px solid rgba(255,255,255,0.06);
     }
 
+
+
+    .legal-card {
+      padding: 24px;
+      border-radius: 20px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .legal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .legal-block {
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .legal-block h3 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    .legal-block p,
+    .legal-block address {
+      margin: 0;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    .legal-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .legal-list div {
+      display: grid;
+      grid-template-columns: minmax(120px, 180px) 1fr;
+      gap: 12px;
+    }
+
     footer {
       padding: 28px 0 42px;
       color: var(--muted);
@@ -482,7 +532,7 @@
 <body>
   <nav class="nav">
     <div class="wrap nav-inner">
-      <a href="#top" class="brand">geissel.io</a>
+      <a href="#top" class="brand">portfolio.geissel.io</a>
       <div class="nav-links">
         <a href="#about">about</a>
         <a href="#value">value</a>
@@ -491,6 +541,7 @@
         <a href="#projects">projects</a>
         <a href="#credentials">credentials</a>
         <a href="#contact">contact</a>
+        <a href="#impressum">impressum</a>
       </div>
     </div>
   </nav>
@@ -519,8 +570,8 @@
             </div>
             <div class="hero-actions">
               <a class="btn primary" href="#contact">Get in touch</a>
-              <a class="btn" href="mailto:sebastian@geissel.io">sebastian@geissel.io</a>
-              <a class="btn" href="https://linkedin.com/in/sege" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn" href="mailto:portfolio@geissel.io">portfolio@geissel.io</a>
+              <a class="btn" href="https://linkedin.com/in/sege" target="_blank" rel="noopener noreferrer external nofollow">LinkedIn</a>
             </div>
           </div>
         </div>
@@ -779,18 +830,71 @@
             <p class="lead">Available for senior security architecture and information security roles, especially where governance, standardization and operational reality need to work together.</p>
           </div>
           <div class="contact-list">
-            <div class="contact-item"><span class="muted">Email</span><a href="mailto:sebastian@geissel.io">sebastian@geissel.io</a></div>
-            <div class="contact-item"><span class="muted">LinkedIn</span><a href="https://linkedin.com/in/sege" target="_blank" rel="noreferrer">linkedin.com/in/sege</a></div>
+            <div class="contact-item"><span class="muted">Email</span><a href="mailto:portfolio@geissel.io">portfolio@geissel.io</a></div>
+            <div class="contact-item"><span class="muted">LinkedIn</span><a href="https://linkedin.com/in/sege" target="_blank" rel="noopener noreferrer external nofollow">linkedin.com/in/sege</a></div>
+            <div class="contact-item"><span class="muted">GitHub</span><a href="https://github.com/gslsbstn/" target="_blank" rel="noopener noreferrer external nofollow">github.com/gslsbstn</a></div>
             <div class="contact-item"><span class="muted">Location</span><span>Düsseldorf, Germany</span></div>
             <div class="contact-item"><span class="muted">Domain</span><span>geissel.io</span></div>
           </div>
         </div>
       </div>
     </section>
+
+    <section id="impressum">
+      <div class="wrap">
+        <div class="legal-card">
+          <div class="section-head">
+            <div class="eyebrow">impressum / legal</div>
+            <h2>Impressum.</h2>
+            <p class="lead">
+              Angaben gemäß § 5 DDG. Zusätzliche Domain- und Registry-Informationen sind unten mit Verweis auf die offiziellen Anbieterquellen aufgeführt.
+            </p>
+          </div>
+          <div class="legal-grid">
+            <div class="legal-block">
+              <h3>Verantwortlich für den Inhalt</h3>
+              <address>
+                Sebastian Geißel<br>
+                Düsseldorf, Deutschland<br>
+                E-Mail: <a href="mailto:portfolio@geissel.io">portfolio@geissel.io</a>
+              </address>
+            </div>
+            <div class="legal-block">
+              <h3>Domain- und Registry-Informationen</h3>
+              <div class="legal-list">
+                <div><strong>Domain</strong><span>geissel.io</span></div>
+                <div><strong>TLD-Registry</strong><span><a href="https://nic.io/" target="_blank" rel="noopener noreferrer external nofollow">NIC.IO</a> / Internet Computer Bureau Ltd.</span></div>
+                <div><strong>WHOIS / Lookup</strong><span><a href="https://nic.io/whois-search.htm" target="_blank" rel="noopener noreferrer external nofollow">Offizielle .io WHOIS-Suche</a></span></div>
+                <div><strong>Registrar-Hinweis</strong><span><a href="https://domains.cloudflare.com/" target="_blank" rel="noopener noreferrer external nofollow">Cloudflare Registrar</a> (laut öffentlichem Domain-Hinweis)</span></div>
+              </div>
+            </div>
+            <div class="legal-block">
+              <h3>Offizielle Registry-Angaben (.io)</h3>
+              <address>
+                Internet Computer Bureau Ltd.<br>
+                Greytown House, 221-227 High Street<br>
+                Orpington, BR6 0NZ<br>
+                United Kingdom
+              </address>
+            </div>
+            <div class="legal-block">
+              <h3>Registrar Services auf NIC.IO</h3>
+              <address>
+                Registrar services powered by Name.com<br>
+                414 14th Street #200<br>
+                Denver, Colorado 80202<br>
+                United States
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer>
-    <div class="wrap">© 2026 Sebastian Geißel · Built for portfolio.geissel.io</div>
+    <div class="wrap">© 2026 Sebastian Geißel · Built for portfolio.geissel.io · <a href="#impressum">Impressum</a></div>
   </footer>
 </body>
 </html>
